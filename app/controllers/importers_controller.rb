@@ -34,14 +34,13 @@ class ImportersController < ApplicationController
     phone = column[:phone]
     address = column[:address]
     credit_card = column[:credit_card]
-    franchise = column[:franchise]
     email = column[:email]
     Csv.find(column[:csv_id]).update(status: 'Processing')
-    arr = [name, date_of_birth, phone, address, credit_card, franchise, email]
+    arr = [name, date_of_birth, phone, address, credit_card, email]
     arr_uniq = arr.uniq
     if arr == arr_uniq
       path =ActiveStorage::Blob.service.path_for(Csv.find(column[:csv_id]).file.key)
-      Csv.import(path, name, date_of_birth, phone, address, credit_card, franchise, email)
+      Csv.import(path, name, date_of_birth, phone, address, credit_card, email, current_user)
     else
       Csv.find(column[:csv_id]).update(status: 'Failed')
       flash[:alert] = "You selected the same column for distinct values."
@@ -57,5 +56,16 @@ class ImportersController < ApplicationController
 
   def csv_params
     params.require(:csv).permit(:file)
+  end
+
+  def validate_credit_card(credit_card)
+    card_string = credit_card.to_s
+    puts "card_string => #{card_string}"
+    case card_string
+    when card_string[0] == "1"
+      if card_string.length == 15
+        return [card_string.last(4), 'UATP']
+      end
+    end
   end
 end
