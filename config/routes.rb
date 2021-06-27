@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   delete  '/logout',    to: "sessions#destroy"
   get     '/signup',    to: 'users#signup'
   post    '/signup',    to: 'users#create'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  post    '/importers', to: 'importers#create'
 end
