@@ -1,0 +1,2 @@
+class ErrorContact < ApplicationRecord
+end

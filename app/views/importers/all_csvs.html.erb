@@ -1,0 +1,56 @@
+<% provide(:title, "All CSVs") %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Uploaded Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @csvs.each do |csv| %>
+      <tr>
+        <td><%= csv.name %></td>
+        <td><%= csv.status %></td>
+        <td><%= csv.created_at.strftime("%b-%d-%Y %l:%M:%S %P %Z") %></td>
+        <% if csv.status == 'On Hold'%>
+          <td><%= link_to  "Process", "/csv/#{csv.id}" %></td>
+        <% end %>
+        <% if csv.status == 'Failed'%>
+          <td><%= link_to  "Process Again", "/csv/#{csv.id}" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<h1>My Contacts</h1>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date of Birth</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Credit Card</th>
+      <th>Franchise</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= contact.name %></td>
+        <td><%= contact.date_of_birth %></td>
+        <td><%= contact.phone %></td>
+        <td><%= contact.address %></td>
+        <td>*** <%= contact.credit_card_four_digit %></td>
+        <td><%= contact.franchise %></td>
+        <td><%= contact.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
