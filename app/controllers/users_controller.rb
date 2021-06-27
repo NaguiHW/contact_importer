@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  def login
-  end
-
+  before_action :connected_user?, only: %i[signup]
+  
   def signup
     @user = User.new
   end
@@ -9,8 +8,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(signup_params)
     if @user.save
+      reset_session
+      log_in @user
       flash[:success] = "Your account was created successfully!"
-      redirect_to root_path
+      redirect_to importers_path
     else
       render 'signup'
     end

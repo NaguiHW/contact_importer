@@ -5,9 +5,4 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get signup_path
     assert_response :success
   end
-
-  test "should get login (root path)" do
-    get root_path
-    assert_response :success
-  end
 end
