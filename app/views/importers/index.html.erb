@@ -3,7 +3,7 @@
 <h1>Welcome <%= current_user.email %></h1>
 
 <%= form_with(url: importers_path, model: @csv, local: true) do |f| %>
-  <%= f.file_field :file %>
+  <%= f.file_field :file, required: true %>
   <%= f.submit "Upload CSV" %>
 <% end %>
 
