@@ -24,7 +24,29 @@ class ImportersController < ApplicationController
   end
 
   def all_csvs
-    @csvs = current_user.csvs.order(created_at: :desc)
+    @csvs = current_user.csvs.order(created_at: :asc)
+  end
+
+  def start_process
+    column = params[:column]
+    name = column[:name]
+    date_of_birth = column[:date_of_birth]
+    phone = column[:phone]
+    address = column[:address]
+    credit_card = column[:credit_card]
+    franchise = column[:franchise]
+    email = column[:email]
+    Csv.find(column[:csv_id]).update(status: 'Processing')
+    arr = [name, date_of_birth, phone, address, credit_card, franchise, email]
+    arr_uniq = arr.uniq
+    if arr == arr_uniq
+      path =ActiveStorage::Blob.service.path_for(Csv.find(column[:csv_id]).file.key)
+      Csv.import(path, name, date_of_birth, phone, address, credit_card, franchise, email)
+    else
+      Csv.find(column[:csv_id]).update(status: 'Failed')
+      flash[:alert] = "You selected the same column for distinct values."
+    end
+    redirect_to all_csvs_path
   end
 
   private

@@ -18,6 +18,9 @@
         <% if csv.status == 'On Hold'%>
           <td><%= link_to  "Process", "/csv/#{csv.id}" %></td>
         <% end %>
+        <% if csv.status == 'Failed'%>
+          <td><%= link_to  "Process Again", "/csv/#{csv.id}" %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
