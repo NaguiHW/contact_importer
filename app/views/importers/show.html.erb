@@ -1,0 +1,56 @@
+<% provide(:title, "Process") %>
+
+<%= @csv.name %>
+<h2>Select csv columns to match import table column.</h2>
+
+<%= form_with(url: start_process_path, scope: "column", local: true) do |f| %>
+  <%= f.hidden_field :csv_id, value: @csv.id %>
+  <table>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>
+          <%= f.select :name, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Date of Birth</td>
+        <td>
+          <%= f.select :date_of_birth, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td>
+          <%= f.select :phone, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td>
+          <%= f.select :address, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Credit Card</td>
+        <td>
+          <%= f.select :credit_card, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Franchise</td>
+        <td>
+          <%= f.select :franchise, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>
+          <%= f.select :email, @csv.headers.map { |head| [head, head] } %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= f.submit "Start Process" %>
+<% end %>
