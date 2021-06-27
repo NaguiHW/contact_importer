@@ -10,7 +10,6 @@ class ImportersController < ApplicationController
     name = params[:csv][:file].original_filename
     @csv = Csv.new(csv_params.merge(user: current_user, headers: headers, name: name, status: 'On Hold'))
     if @csv.save
-      # puts "url ==> #{url_for(@csv.file)}"
       flash[:success] = "Your csv file was uploaded correctly!"
       redirect_to all_csvs_path
     else
@@ -22,9 +21,10 @@ class ImportersController < ApplicationController
   def show
     @csv = Csv.find(params[:id])
   end
-
+  
   def all_csvs
     @csvs = current_user.csvs.order(created_at: :asc)
+    @contacts = current_user.contacts
   end
 
   def start_process
@@ -40,7 +40,7 @@ class ImportersController < ApplicationController
     arr_uniq = arr.uniq
     if arr == arr_uniq
       path =ActiveStorage::Blob.service.path_for(Csv.find(column[:csv_id]).file.key)
-      Csv.import(path, name, date_of_birth, phone, address, credit_card, email, current_user)
+      Csv.import(path, name, date_of_birth, phone, address, credit_card, email, current_user, Csv.find(column[:csv_id]))
     else
       Csv.find(column[:csv_id]).update(status: 'Failed')
       flash[:alert] = "You selected the same column for distinct values."

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_065908) do
+ActiveRecord::Schema.define(version: 2021_06_27_143929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,12 +49,20 @@ ActiveRecord::Schema.define(version: 2021_06_27_065908) do
     t.string "date_of_birth"
     t.string "phone"
     t.string "address"
-    t.string "credit_card"
+    t.string "credit_card_four_digit"
     t.string "franchise"
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "credit_cards", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.text "number_ciphertext"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_credit_cards_on_contact_id"
   end
 
   create_table "csvs", force: :cascade do |t|
@@ -67,6 +75,13 @@ ActiveRecord::Schema.define(version: 2021_06_27_065908) do
     t.index ["user_id"], name: "index_csvs_on_user_id"
   end
 
+  create_table "error_contacts", force: :cascade do |t|
+    t.string "name"
+    t.text "reason", default: [], null: false, array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -77,5 +92,6 @@ ActiveRecord::Schema.define(version: 2021_06_27_065908) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contacts", "users"
+  add_foreign_key "credit_cards", "contacts"
   add_foreign_key "csvs", "users"
 end

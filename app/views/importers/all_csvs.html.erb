@@ -25,3 +25,32 @@
     <% end %>
   </tbody>
 </table>
+<br>
+<h1>My Contacts</h1>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date of Birth</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Credit Card</th>
+      <th>Franchise</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= contact.name %></td>
+        <td><%= contact.date_of_birth %></td>
+        <td><%= contact.phone %></td>
+        <td><%= contact.address %></td>
+        <td>*** <%= contact.credit_card_four_digit %></td>
+        <td><%= contact.franchise %></td>
+        <td><%= contact.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

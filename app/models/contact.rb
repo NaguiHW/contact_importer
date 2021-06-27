@@ -9,6 +9,7 @@ class Contact < ApplicationRecord
   validates :phone, presence: true, format: { with: PHONE_REGEX }
   validates :email, presence: true, format: { with: EMAIL_REGEX }
   validates :address, presence: true
-  validates :credit_card, presence: true
+  validates :credit_card_four_digit, presence: true
   validates :franchise, presence: true
+  has_one :credit_card
 end
